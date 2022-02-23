@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" class="w-full h-full">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="React Firebase Tailwind template" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/styles/atom-one-dark.min.css" />
+    <link rel="apple-touch-icon" href="/logo192.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <script>
+      var themes = ['dark'];
+
+      function addGlobalThemeClass(theme) {
+        document.documentElement.classList.add(theme);
+      }
+
+      function removeGlobalThemeClass() {
+        themes.forEach((theme) => {
+          document.documentElement.classList.remove(theme);
+        });
+      }
+
+      var darkMediaScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+      function setTheme() {
+        removeGlobalThemeClass();
+        if (localStorage.getItem('theme') !== null) {
+          switch (localStorage.getItem('theme')) {
+            case 'dark':
+              addGlobalThemeClass('dark');
+              break;
+            default:
+              break;
+          }
+          return;
+        }
+        if (darkMediaScheme.matches) {
+          addGlobalThemeClass('dark');
+        }
+      }
+
+      // listen for changes to the user's default computer settings
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function setPreferredColorScheme(evt) {
+        if (localStorage.theme !== undefined) {
+          return;
+        }
+
+        if (evt.matches) {
+          addGlobalThemeClass('dark');
+        } else {
+          removeGlobalThemeClass();
+        }
+      });
+
+      window.addEventListener('theme-change', () => {
+        setTheme();
+      });
+
+      setTheme();
+    </script>
+    <title>React App</title>
+  </head>
+  <body class="w-full h-full">
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root" class="w-full h-full"></div>
+    <script type="module" src="/src/index.tsx"></script>
+  </body>
+</html>
